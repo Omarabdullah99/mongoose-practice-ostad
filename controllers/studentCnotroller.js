@@ -23,4 +23,17 @@ const createStudent = async (req, res) => {
   }
 };
 
-module.exports = { createStudent };
+const getStudent= async(req,res)=>{
+  try {
+    const allStudent= await studentModel.find()
+    res.status(200).json(allStudent)
+    
+  } catch (error) {
+    res.status(400).json(error)
+    console.log(error)
+    
+  }
+}
+
+
+module.exports = { createStudent, getStudent };
