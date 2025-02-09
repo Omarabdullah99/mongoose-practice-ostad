@@ -35,5 +35,55 @@ const getStudent= async(req,res)=>{
   }
 }
 
+const getStudentById= async(req,res)=>{
+  const id= req.params.id
+  try {
+    const result= await studentModel.findById(id)
+    if(!result){
+     return res.status(400).json({message:"student not fount"})
+    }
+    res.status(200).json(result)
+  } catch (error) {
+    res.status(400).json(error)
+    
+  }
+}
 
-module.exports = { createStudent, getStudent };
+const updateStudent = async (req, res) => {
+  let id = req.params.id;
+  const updateData = req.body;
+
+  try {
+    const update = await studentModel.findByIdAndUpdate(id, updateData, { new: true });
+
+    if (!update) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    res.status(200).json({ message: "Student updated successfully", data: update });
+  } catch (error) {
+    res.status(400).json({ message: "Update failed", error: error });
+  }
+};
+
+const deleteStudent=async(req,res)=>{
+  const id= req.params.id
+  try {
+    const result = await studentModel.findByIdAndDelete(id)
+
+    if(!result){
+      return res.status(404).json({message:"stuent not fount"})
+    }
+
+    res.status(200).json({message:"Delete Successfully"})
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+
+
+
+
+
+module.exports = { createStudent, getStudent,updateStudent,getStudentById,deleteStudent };
